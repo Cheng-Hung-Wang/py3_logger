@@ -1,21 +1,28 @@
 import logging
+import os.path
+from datetime import datetime
 
-class log_file():
-    def __init__(self, file, *,log=__name__, path="log/",console=True):
+class Log():
+    def __init__(self, *, file=__file__, cla=__name__, path=None,console=True):
+
+        if(path is None):
+            path = os.path.abspath(".")+"/log/"
 
         # create logger with 'log=name'
         #self.name = '.'.join([log, self.__class__.__name__])
-        self.name = log
+        self.name = "{} - {}.".format(file, cla)
 
         # 創建 logger  
         self.logger = logging.getLogger(self.name)
         self.logger.setLevel(logging.DEBUG)
 
         # create formatter and add it to the handlers
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        #formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        #formatter = logging.Formatter("%(levelname) -10s %(asctime)s %(module)s:%(lineno)s %(funcName)s %(message)s")
+        formatter = logging.Formatter("%(levelname)s - %(asctime)s - %(name)s%(funcName)s:%(lineno)s - %(message)s")
 
         # create file handler (log save path and name) which logs even debug messages
-        fh = logging.FileHandler(path+file)
+        fh = logging.FileHandler(path+datetime.now().strftime("%Y-%m-%d")+".log")
         fh.setLevel(logging.DEBUG)
         fh.setFormatter(formatter)
         # add the handlers to the logger
@@ -28,13 +35,4 @@ class log_file():
             ch.setFormatter(formatter)
             # add the handlers to the logger
             self.logger.addHandler(ch)
-
-    def getlogger(self):
-        return self.logger
-
-    def addSubLogger(self, name):
-        # 創建 logger  
-        logger = logging.getLogger(self.name+"."+name)
-        logger.setLevel(logging.DEBUG)
-        return logger
 

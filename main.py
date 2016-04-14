@@ -2,14 +2,13 @@
 #-*- coding: utf-8 -*-
 
 
-from lib.log import log_file
-from lib.A import A
-from lib.B import B
+from lib import Log
+from lib import A
+from lib import B
 
 
 if __name__ == "__main__":
-    log = log_file("mytest.log", log="main")
-    logger = log.getlogger()
+    logger = Log(file=__file__, cla=__name__).logger
     logger.info("from main function")
-    a = A(log)
-    b = B(log)
+    a = A()
+    b = B()
