@@ -2,8 +2,6 @@ import logging
 import os.path
 from datetime import datetime
 
-from setting import level
-
 class Log():
     def __init__(self, *,file=__file__, cla=None, path=None, filename="analytics", console=True, format="full"):
 
@@ -20,8 +18,7 @@ class Log():
 
         # 創建 logger  
         self.logger = logging.getLogger(self.name)
-        self.logger.propagate = False
-        self.logger.setLevel(level)
+        self.logger.setLevel(logging.DEBUG)
         self.console = console
 
 
